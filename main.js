@@ -39,6 +39,18 @@ var ATTRIBUTES = {
   "d25b3012-1832-4843-9ecf-3002d3434155" : "icon"
 };
 
+module.exports.$init = function(_Q, _request, __){
+  if(_Q){
+    Q = _Q;
+  }
+  if(request){
+    request = _request;
+  }
+  if(__){
+    _ = __;
+  }
+};
+
 module.exports.getEntities = function(config, cb){
     var url = typeof config === 'string' ? config : config.url;
 
@@ -52,7 +64,6 @@ module.exports.getEntities = function(config, cb){
             cb(err);
           }
         } else {
-          console.log('got response: ', JSON.stringify(res.body.length));
           var translated = res.body.map(translateEntity());
           deferred.resolve(translated);
           if(isFunction(err)){
