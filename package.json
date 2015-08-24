@@ -1,8 +1,8 @@
 {
   "name": "ims-casa",
   "version": "0.1.0",
-  "description": "A library to hlep with a CASA implementation",
-  "main": "main.js",
+  "description": "A library to help with a CASA implementation",
+  "main": "./main.js",
   "scripts": {
     "test": "./node_modules/.bin/jasmine-node spec"
   },
@@ -10,7 +10,15 @@
     "ims",
     "casa"
   ],
-  "author": "",
+  "author": "Paul Gray <pfbgray@gmail.com>",
+  "contributors":{
+    "name":"Paul Gray",
+    "email":"pfbgray@gmail.com"
+  },
+  "repository":{
+    "type":"git",
+    "url":"https://github.com/pfgray/ims-casa-js"
+  },
   "license": "MIT",
   "dependencies": {
     "q": "^1.4.1",
