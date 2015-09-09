@@ -1,71 +1,57 @@
-
 var casa = require('../main.js');
 
-describe('getEntities', function () {
-    var entities = null;
+var request = require('superagent');
+var _ = require('lodash');
 
-    function createMockRequest(url, data){
-      return {
-        get:function(url){
-          expect(url).toBe(url);
-          return this;
-        },
-        set:function(){
-          return this;
-        },
-        end: function(cb){
-          setTimeout(function(){
-            cb(null, {
-              body:data
-            });
-          });
-        }
-      };
+describe('translate()', function () {
+  
+    function clone(obj){
+      return JSON.parse(JSON.stringify(obj));
     }
 
-    it('should request the correct url if the first parameter is a string', function(){
-      var mockReq = createMockRequest('http://example.com/out/payloads', []);
-      runs(function() {
-        casa.$init(null, mockReq, null);
-        casa.getEntities('http://example.com/out/payloads')
-        .then(function(res){
-          entities = res;
-        })
-        .catch(function(){
-          throw 'failed';
+    var baseEntity = {
+      "identity":{"originator_id":"guid","id":"ident"},
+      "original":{
+        "timestamp":"2015-06-16T20:34:13.874Z",
+        "uri":"http://example.com",
+        "share":true,
+        "propagate":true,
+        "use":{},"require":{}
+      },
+      "journal":[]
+    };
+    
+    function getNewEntityWithAttr(guid, obj){
+      var entity = clone(baseEntity);
+      function populateAttrs(attributeSet){
+        _.each(["use", "require"], function(attr){
+          attributeSet[attr] = obj;
         });
-      });
+      }
+      populateAttrs(entity.original);
+      _.each(entity.journal, populateAttrs);
+      return entity;
+    }
 
-      waitsFor(function(){
-        return entities !== null;
-      });
-
-      runs(function(){
-        expect(entities.length).toBe(0);
-      });
+    it('should translate the "title" attribute', function(){
+      var entity = getNewEntityWithAttr(
+        "1f2625c2-615f-11e3-bf13-d231feb1dc81",
+        "Title"
+      );
+      var translated = casa.translate()(entity);
+      console.log('got: ', translated);
+      expect(translated.original.use.title).toBe("Title");
+      /*
+        "1f2625c2-615f-11e3-bf13-d231feb1dc81":"Statistical Mechanics",
+        "d59e3a1f-c034-4309-a282-60228089194e":[{
+          "name":"Massachusetts Institute of Technology"
+        }],
+        "b7856963-4078-4698-8e95-8feceafe78da":"asdf"
+      */
+      
     });
 
-    it('should request the correct url if it is supplied in the configuration', function(){
-      var mockReq = createMockRequest('http://example.com/out/payloads', []);
-      runs(function() {
-        casa.$init(null, mockReq, null);
-        casa.getEntities({
-          url:'http://example.com/out/payloads'
-        })
-        .then(function(res){
-          entities = res;
-        })
-        .catch(function(){
-          throw 'failed';
-        });
-      });
-
-      waitsFor(function(){
-        return entities !== null;
-      });
-
-      runs(function(){
-        expect(entities.length).toBe(0);
-      });
+    it('should translate the "description" attribute', function(){
+      
     });
 });

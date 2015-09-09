@@ -1,6 +1,8 @@
 ;(function(){
   
-  var root = this; 
+  var root = this;
+  
+  var _ = require('lodash');
   
   var casa = {};
   
@@ -9,22 +11,6 @@
     root.casa = casa;
   } else {
     root.casa = casa;
-  }
-/*
-  function load(global, module){
-    if (typeof require === 'function') {
-      return require(module);
-    } else {
-      return window[global];
-    }
-  }
-*/
-  var Q = require('q'); //load('Q', 'q'); 
-  var request = require('superagent'); //load('request', 'superagent');
-  var _ = require('lodash'); //load('_', 'lodash');
-
-  function isFunction(func){
-    return typeof func === 'function';
   }
 
   var ATTRIBUTES = {
@@ -57,41 +43,6 @@
 
     //random?
     "d25b3012-1832-4843-9ecf-3002d3434155" : "icon"
-  };
-
-  casa.$init = function(_Q, _request, __){
-    if(_Q){
-      Q = _Q;
-    }
-    if(request){
-      request = _request;
-    }
-    if(__){
-      _ = __;
-    }
-  };
-
-  casa.getEntities = function(config, cb){
-      var url = typeof config === 'string' ? config : config.url;
-
-      var deferred = Q.defer();
-      request.get(url)
-        .set('Accept', 'application/json')
-        .end(function(err, res){
-          if(err){
-            deferred.reject(err);
-            if(isFunction(err)){
-              cb(err);
-            }
-          } else {
-            var translated = res.body.map(translateEntity());
-            deferred.resolve(translated);
-            if(isFunction(err)){
-              cb(null, translated);
-            }
-          }
-        });
-      return deferred.promise;
   };
 
   casa.translate = translateEntity;
