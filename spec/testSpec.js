@@ -4,7 +4,7 @@ var request = require('superagent');
 var _ = require('lodash');
 
 describe('translate()', function () {
-  
+
     function clone(obj){
       return JSON.parse(JSON.stringify(obj));
     }
@@ -20,7 +20,7 @@ describe('translate()', function () {
       },
       "journal":[]
     };
-    
+
     function getNewEntityWithAttr(guid, obj){
       var entity = clone(baseEntity);
       function populateAttrs(attributeSet){
@@ -32,7 +32,7 @@ describe('translate()', function () {
       entity.journal.map(populateAttrs);
       return entity;
     }
-    
+
     /**
     * This function will test that casa.translate() will translate an attribute
     * with the supplied guid.
@@ -45,7 +45,7 @@ describe('translate()', function () {
       }
       expect(translated.original.use[human]).toBe(obj);
     }
-    
+
     it('should translate the "title" attribute', function(){
       testPair(
         '1f2625c2-615f-11e3-bf13-d231feb1dc81',
@@ -70,6 +70,23 @@ describe('translate()', function () {
         }
       );
     });
-    
-    
+
+    it('should translate the "lti" attribute', function(){
+      testPair(
+        'f6820326-5ea3-4a02-840d-7f91e75eb01b',
+        'lti',{
+          "name":"Massachusetts Institute of Technology"
+        }
+      );
+    });
+
+    it('should translate the "caliper" attribute', function(){
+      testPair(
+        'd96e4185-c52d-4f46-9fcb-59d28087c7d1',
+        'caliper',{
+          "name":"Massachusetts Institute of Technology"
+        }
+      );
+    });
+
 });

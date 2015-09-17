@@ -1,11 +1,11 @@
 ;(function(){
-  
+
   var root = this;
-  
+
   var _ = require('lodash');
-  
+
   var casa = {};
-  
+
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = casa;
     root.casa = casa;
@@ -32,6 +32,7 @@
 
     //interoperability:
     "f6820326-5ea3-4a02-840d-7f91e75eb01b" : "lti",
+    "d96e4185-c52d-4f46-9fcb-59d28087c7d1" : "caliper",
 
     //privacy
     "63a39b88-2603-4bce-ac5b-8247bf262986" : "privacy",
