@@ -1,6 +1,6 @@
 {
   "name": "ims-casa",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A library to help with a CASA implementation",
   "main": "./main.js",
   "scripts": {
